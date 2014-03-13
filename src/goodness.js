@@ -141,12 +141,16 @@
 
   };
 
-  Goodness.prototype.refresh = function() {
+  Goodness.prototype.refresh = function(validate) {
     // Update list of elements to validate in this form
     this.$formControls = this.$element.find(this.options.validationElementSelector);
 
-    // Re-validate
-    return this.isAllGood();
+    // Re-validate if validate is true
+    if(validate) {
+      return this.isAllGood();
+    }
+
+    return true;
   };
 
   Goodness.prototype.getRules = function() {
