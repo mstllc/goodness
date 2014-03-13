@@ -1,7 +1,7 @@
 {
   "name": "goodness",
   "description": "Development and build tools for goodness.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Max Thorson <max.thorson@gmail.com>",
   "private": true,
   "license": "MIT",

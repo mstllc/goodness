@@ -3,9 +3,21 @@
   // Plugin name
   var pluginName = 'goodness';
 
+  // This is the jQuery selector to get elements in a form to validate.
+  // HTML form elements:
+  // input - YES
+  // input[type=submit] - NO
+  // input[type=hidden] - NO
+  // input[type=reset] - NO
+  // textarea - YES
+  // select - YES
+  var validationElementSelector = 'input:not([type=submit]):not([type=hidden])' +
+    ':not([type=reset]) textarea select';
+
   // Default options
   var defaults = {
     inputContainerSelector: '.input-group',
+    validationElementSelector: validationElementSelector,
     validateOnChange: true,
     emitEvents: true,
     defaultErrorMessage: 'You gotta fix this.'
@@ -46,6 +58,9 @@
     this._defaults = defaults;
     this._name = pluginName;
 
+    // These are the form elements to validate.
+    this.$formControls = this.$element.find(this.options.validationElementSelector);
+
     // Add the rules property that was passed to the main rules object
     if(typeof newRules === 'object') {
       var self = this;
@@ -79,8 +94,8 @@
     var self = this;
     var good = true;
 
-    // Loop through all the input elements that aren't submit buttons
-    this.$element.find('input:not([type=submit])').each(function(elmIdx, elm) {
+    // Loop through all the form things we want to validate
+    this.$formControls.each(function(elmIdx, elm) {
       var $elm = $(elm);
       // Check each element
       if(!self.goodOne($elm)) {
@@ -117,26 +132,21 @@
     });
     // Add general error class if there were any errors at all or remove it
     if(err) {
-      $container.addClass('error');
+      $container.removeClass('good').addClass('error');
     } else {
-      $container.removeClass('error');
+      $container.removeClass('error').addClass('good');
     }
 
     return good;
 
   };
 
-  Goodness.prototype._onFormSubmit = function(e) {
-    $(this).trigger('submit');
-    if(this.isAllGood()) {
-      return true;
-    }
-    return false;
-  };
+  Goodness.prototype.refresh = function() {
+    // Update list of elements to validate in this form
+    this.$formControls = this.$element.find(this.options.validationElementSelector);
 
-  Goodness.prototype._onInputChange = function(e) {
-    // Validate the input that triggered the change
-    this.goodOne($(e.currentTarget));
+    // Re-validate
+    return this.isAllGood();
   };
 
   Goodness.prototype.getRules = function() {
@@ -158,6 +168,19 @@
       }
       return this;
     }
+  };
+
+  Goodness.prototype._onFormSubmit = function(e) {
+    $(this).trigger('submit');
+    if(this.isAllGood()) {
+      return true;
+    }
+    return false;
+  };
+
+  Goodness.prototype._onInputChange = function(e) {
+    // Validate the input that triggered the change
+    this.goodOne($(e.currentTarget));
   };
 
   // Add plugin to jQuery chain
