@@ -1,0 +1,17 @@
+{
+  "name": "goodness",
+  "version": "0.0.1",
+  "main": "goodness.min.js",
+  "keywords": ["goodness", "form", "validation"],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": ">=1.10"
+  }
+}

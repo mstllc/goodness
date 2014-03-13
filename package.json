@@ -1,0 +1,14 @@
+{
+  "name": "goodness",
+  "description": "Development and build tools for goodness.js",
+  "version": "0.0.1",
+  "author": "Max Thorson <max.thorson@gmail.com>",
+  "private": true,
+  "license": "MIT",
+  "devDependencies": {
+    "grunt-contrib-sass": "^0.7.3",
+    "grunt-contrib-uglify": "^0.4.0",
+    "grunt-contrib-watch": "^0.6.0",
+    "grunt": "^0.4.4"
+  }
+}
