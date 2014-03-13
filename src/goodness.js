@@ -12,7 +12,7 @@
   // textarea - YES
   // select - YES
   var validationElementSelector = 'input:not([type=submit]):not([type=hidden])' +
-    ':not([type=reset]) textarea select';
+    ':not([type=reset]), textarea, select';
 
   // Default options
   var defaults = {
