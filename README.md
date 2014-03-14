@@ -1,3 +1,8 @@
 # Goodness
+---
 
-Ultra light form validation plugin for jQuery.
+Light form validation plugin for jQuery.
+
+## Usage
+
+

@@ -13,10 +13,24 @@ module.exports = function(grunt) {
       }
     },
     sass: {
-
+      develop: {
+        options: {
+          style: 'expanded',
+          lineNumbers: true
+        },
+        files: {
+          'example/styles/style.css' : 'example/styles/style.scss'
+        }
+      }
     },
     watch: {
-
+      sass: {
+        files: ['example/styles/**/*.scss'],
+        tasks: ['sass:develop'],
+        options: {
+          livereload: true
+        }
+      }
     }
   });
 
@@ -25,4 +39,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.registerTask('default', ['uglify']);
+  grunt.registerTask('develop', ['sass:develop', 'watch:sass']);
 };
