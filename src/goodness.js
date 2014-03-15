@@ -14,60 +14,43 @@
   var validationElementSelector = 'input:not([type=submit]):not([type=hidden])' +
     ':not([type=reset]), textarea, select';
 
+  // Built-In rules
+  var defaultRules = {
+    'required': function(val, $elm, $form) {
+      return /^(?!\s*$).+/.test(val);
+    }
+  }
+
   // Default options
   var defaults = {
-    inputContainerSelector: '.input-group',
+    inputContainerSelector: 'input, textarea, select',
     validationElementSelector: validationElementSelector,
-    validateOnChange: true,
-    emitEvents: true,
+    validateOnChange: false,
+    emitEvents: false,
     defaultErrorMessage: 'You gotta fix this.'
-  };
-
-  // A few rules built in
-  var rules = {
-    'required': {
-      reggie: /^(?!\s*$).+/,
-      message: 'You HAVE to fill this one out.'
-    },
-    'email': {
-      reggie: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      message: 'Must be a valid MySpace email address.'
-    }
   };
 
   // Plugin constructor
   var Goodness = function(element, options) {
-    // Gonna wanna only call this on a form element.
-    if(!$(element).is('form')) {
-      $.error('goodness method should be called on a <form> element');
-      return false;
-    }
 
-    // If a rules property was passed, pluck it out
-    var newRules;
-    if(options && options.rules) {
-      newRules = options.rules;
-      options.rules = undefined;
+    // Extend defaultRules
+    if(options) {
+      options.rules = $.extend({}, defaultRules, options.rules);
+    } else {
+      options = {
+        rules: defaultRules
+      };
     }
 
     // Save the jazz
     this.element = element;
     this.$element = $(element);
     this.options = $.extend({}, defaults, options);
-    this.rules = rules;
     this._defaults = defaults;
     this._name = pluginName;
 
     // These are the form elements to validate.
     this.$formControls = this.$element.find(this.options.validationElementSelector);
-
-    // Add the rules property that was passed to the main rules object
-    if(typeof newRules === 'object') {
-      var self = this;
-      $.each(newRules, function(ruleIdx, rule) {
-        self.addRule(rule.name, rule);
-      });
-    }
 
     // Kick off
     this.init();
@@ -86,7 +69,7 @@
 
     // Validate on change event if flagged
     if(this.options.validateOnChange) {
-      this.$element.find('input').on('change', $.proxy(this._onInputChange, this));
+      this.$formControls.on('change', $.proxy(this._onInputChange, this));
     }
   };
 
@@ -103,38 +86,73 @@
       }
     });
 
+    if(good) {
+      this.$element.removeClass('error').addClass('good');
+    } else {
+      this.$element.removeClass('good').addClass('error');
+    }
+
     return good;
   };
 
   Goodness.prototype.goodOne = function($elm) {
-    var options = this.options;
-    var good = true;
+    var self = this;
+    var good = false;
+    var hadRule = false;
+    var hadError = false;
 
     // Cache container and get classes from it as array
-    var $container = $elm.closest(options.inputContainerSelector);
+    var $container = $elm.closest(self.options.inputContainerSelector);
+    var classes = $container.attr('class');
+
+    // If this element has no classes, how do we know what to validate?
+    if(!classes)
+      return true;
+
+    // If there are classes, get them in array format
     var classList = $container.attr('class').split(/\s+/);
-    var err = false;
 
     // Loop through the classes of the container
     $.each(classList, function(classIdx, className) {
-      // If this class is also a rule name, check against rule regex
-      if(rules[className]) {
-        var rule = rules[className];
-        // Add specific rule error class or remove it
-        if(!rule.reggie.test($elm.val())) {
-          $container.addClass(className + '-error');
-          err = true;
-          good = false;
-        } else {
-          $container.removeClass(className + '-error');
+      // If this class is not 'required', and there is
+      // a rule with the same name, do the tests.
+      if(self.options.rules[className]) {
+        var passedRule = -1;
+
+        // See what kind of rule this is
+        if(typeof self.options.rules[className] === 'function') {
+          passedRule = self.options.rules[className]($elm.val(), $elm, self.$element);
+        } else if(self.options.rules[className] instanceof RegExp) {
+          passedRule = self.options.rules[className].test($elm.val());
         }
+
+        // If passedRule is -1, remove both classes, otherwise add/remove based on value.
+        if(passedRule === -1) {
+          $container.removeClass(className + '-good').removeClass(className + '-error');
+        } else if(passedRule) {
+          $container.addClass(className + '-good').removeClass(className + '-error');
+          good = true;
+        } else {
+          $container.addClass(className + '-error').removeClass(className +'-good');
+          good = false;
+          hadError = true;
+        }
+
+        // Flag hadRule as true
+        hadRule = true;
+
       }
+
     });
-    // Add general error class if there were any errors at all or remove it
-    if(err) {
+
+    // Add general error class if there were any errors at all or remove it,
+    // Add general good class if there were no errors or remove it.
+    if(hadError && hadRule) {
       $container.removeClass('good').addClass('error');
-    } else {
+    } else if(good && hadRule) {
       $container.removeClass('error').addClass('good');
+    } else {
+      $container.removeClass('error').removeClass('good');
     }
 
     return good;
@@ -163,7 +181,7 @@
     if(name && (typeof name === 'string') && rule && (typeof rule === 'object')) {
       if(!rule.message)
         rule.message = defaults.defaultErrorMessage;
-      if(!rule.reggie || !(rule.reggie instanceof RegExp)) {
+      if(!rule.regex || !(rule.regex instanceof RegExp)) {
         $.error('Must supply a rule RegEx.');
         return false;
       }
@@ -175,8 +193,8 @@
   };
 
   Goodness.prototype._onFormSubmit = function(e) {
-    $(this).trigger('submit');
     if(this.isAllGood()) {
+      // THIS WOULD LET THIS FORM GO THROUGH
       return true;
     }
     return false;
@@ -190,10 +208,14 @@
   // Add plugin to jQuery chain
   $.fn[pluginName] = function(options) {
     if(this.length === 1) {
-      if(!this.data('plugin_' + pluginName)) {
-        var goodness = new Goodness(this, options);
-        this.data('plugin_' + pluginName, goodness);
-        return goodness;
+      if(this.is('form')) {
+        if(!this.data('plugin_' + pluginName)) {
+          var goodness = new Goodness(this, options);
+          this.data('plugin_' + pluginName, goodness);
+          return goodness;
+        }
+      } else {
+        throw new Error('Goodness should only be called on a form element.');
       }
     } else {
       throw new Error('Goodness does not support multiple element selectors. Make sure your selector only returns a single element.');

@@ -30,6 +30,12 @@ module.exports = function(grunt) {
         options: {
           livereload: true
         }
+      },
+      html: {
+        files: ['example/index.html'],
+        options: {
+          livereload: true
+        }
       }
     }
   });
@@ -39,5 +45,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.registerTask('default', ['uglify']);
-  grunt.registerTask('develop', ['sass:develop', 'watch:sass']);
+  grunt.registerTask('develop', ['sass:develop', 'watch']);
 };

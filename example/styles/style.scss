@@ -1,3 +1,191 @@
+*, *:before, *:after {
+  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul, ol, dl, li, dt, dd {
+  margin: 0;
+  padding: 0;
+}
+
 html, body {
-  background-color: red;
+  margin: 0;
+  padding: 0;
+  font: normal 18px/1.5 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #CCC;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  font-size: 75px;
+}
+
+h4 {
+  font-size: 30px;
+  border-bottom: 1px solid #CCC;
+  display: inline-block;
+  margin-bottom: 50px;
+}
+
+.foot-note {
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+code {
+  font-size: 16px;
+  background-color: #222;
+  padding: 6px;
+  white-space: pre;
+  display: block;
+  overflow: scroll;
+}
+
+header {
+  width: 100%;
+  padding: 100px;
+  background-color: #0B8F65;
+  text-align: center;
+  color: #333;
+}
+
+section {
+  width: 100%;
+  padding: 50px 0px;
+  text-align: center;
+  background-color: #333;
+  .inner {
+    width: 960px;
+    margin: auto;
+    overflow: hidden;
+    div.description, form {
+      width: 50%;
+      padding: 0px 20px;
+      float: left;
+    }
+  }
+  p {
+    margin-bottom: 10px;
+  }
+  &.overview {
+    background-color: #555555;
+  }
+  &.basic-demo {
+    background-color: #505050;
+  }
+  &.custom-rules {
+    background-color: #454545;
+  }
+}
+
+div.description, form {
+  text-align: left;
+}
+
+.form-row {
+  width: 100%;
+  margin-top: 20px;
+  overflow: hidden;
+  &:first-child {
+    margin-top: 0px;
+  }
+}
+
+.form-col {
+  width: 50%;
+  padding: 0px 10px;
+  float: left;
+}
+
+label {
+  font-size: 14px;
+  -webkit-transition: all 300ms ease;
+}
+
+.input-group {
+  &.error {
+    .text-container {
+      .icon-error {
+        right: 5px;
+        opacity: 1;
+      }
+    }
+  }
+  &.good {
+    .text-container {
+      .icon-good {
+        right: 5px;
+        opacity: 1;
+      }
+    }
+  }
+  &.required, &.must-check {
+    label:after, label::after {
+      content: ' *';
+    }
+  }
+  &.must-check-error {
+    label {
+      color: red;
+    }
+  }
+}
+
+.text-container {
+  width: 100%;
+  height: 30px;
+  overflow: hidden;
+  position: relative;
+  .icon-good, .icon-error {
+    position: absolute;
+    right: -5px;
+    top: 2px;
+    font-size: 26px;
+    opacity: 0;
+    -webkit-transition: all 300ms ease;
+  }
+  .icon-good {
+    color: green;
+  }
+  .icon-error {
+    color: red;
+  }
+}
+
+input[type=text] {
+  width: 100%;
+  height: 26px;
+  border-radius: 4px;
+  margin: 0;
+  padding: 0px 30px 0px 10px;
+  font: bold 14px 'Courier New', Courier, monospace;
+  text-transform: uppercase;
+  border: 1px solid #CCC;
+  -webkit-transition: all 600ms ease;
+}
+
+input[type=submit] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  border-radius: 4px;
+  height: 26px;
+  background-color: #0B8F65;
+  cursor: pointer;
+  font: bold 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #333;
+  &:hover {
+    color: black;
+  }
+  &:focus, &:active {
+    outline: none;
+  }
+}
+
+.fl-left {
+  float: left;
+}
+
+.fl-right {
+  float: right;
 }

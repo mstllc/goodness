@@ -1,4 +1,213 @@
 /* line 1, style.scss */
+*, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* line 5, style.scss */
+h1, h2, h3, h4, h5, h6, p, ul, ol, dl, li, dt, dd {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 10, style.scss */
 html, body {
-  background-color: red;
+  margin: 0;
+  padding: 0;
+  font: normal 18px/1.5 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #CCC;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* line 18, style.scss */
+h1 {
+  font-size: 75px;
+}
+
+/* line 22, style.scss */
+h4 {
+  font-size: 30px;
+  border-bottom: 1px solid #CCC;
+  display: inline-block;
+  margin-bottom: 50px;
+}
+
+/* line 29, style.scss */
+.foot-note {
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+/* line 34, style.scss */
+code {
+  font-size: 16px;
+  background-color: #222;
+  padding: 6px;
+  white-space: pre;
+  display: block;
+  overflow: scroll;
+}
+
+/* line 43, style.scss */
+header {
+  width: 100%;
+  padding: 100px;
+  background-color: #0B8F65;
+  text-align: center;
+  color: #333;
+}
+
+/* line 51, style.scss */
+section {
+  width: 100%;
+  padding: 50px 0px;
+  text-align: center;
+  background-color: #333;
+}
+/* line 56, style.scss */
+section .inner {
+  width: 960px;
+  margin: auto;
+  overflow: hidden;
+}
+/* line 60, style.scss */
+section .inner div.description, section .inner form {
+  width: 50%;
+  padding: 0px 20px;
+  float: left;
+}
+/* line 66, style.scss */
+section p {
+  margin-bottom: 10px;
+}
+/* line 69, style.scss */
+section.overview {
+  background-color: #555555;
+}
+/* line 72, style.scss */
+section.basic-demo {
+  background-color: #505050;
+}
+/* line 75, style.scss */
+section.custom-rules {
+  background-color: #454545;
+}
+
+/* line 80, style.scss */
+div.description, form {
+  text-align: left;
+}
+
+/* line 84, style.scss */
+.form-row {
+  width: 100%;
+  margin-top: 20px;
+  overflow: hidden;
+}
+/* line 88, style.scss */
+.form-row:first-child {
+  margin-top: 0px;
+}
+
+/* line 93, style.scss */
+.form-col {
+  width: 50%;
+  padding: 0px 10px;
+  float: left;
+}
+
+/* line 99, style.scss */
+label {
+  font-size: 14px;
+  -webkit-transition: all 300ms ease;
+}
+
+/* line 107, style.scss */
+.input-group.error .text-container .icon-error {
+  right: 5px;
+  opacity: 1;
+}
+/* line 115, style.scss */
+.input-group.good .text-container .icon-good {
+  right: 5px;
+  opacity: 1;
+}
+/* line 122, style.scss */
+.input-group.required label:after, .input-group.required label::after, .input-group.must-check label:after, .input-group.must-check label::after {
+  content: ' *';
+}
+/* line 127, style.scss */
+.input-group.must-check-error label {
+  color: red;
+}
+
+/* line 133, style.scss */
+.text-container {
+  width: 100%;
+  height: 30px;
+  overflow: hidden;
+  position: relative;
+}
+/* line 138, style.scss */
+.text-container .icon-good, .text-container .icon-error {
+  position: absolute;
+  right: -5px;
+  top: 2px;
+  font-size: 26px;
+  opacity: 0;
+  -webkit-transition: all 300ms ease;
+}
+/* line 146, style.scss */
+.text-container .icon-good {
+  color: green;
+}
+/* line 149, style.scss */
+.text-container .icon-error {
+  color: red;
+}
+
+/* line 154, style.scss */
+input[type=text] {
+  width: 100%;
+  height: 26px;
+  border-radius: 4px;
+  margin: 0;
+  padding: 0px 30px 0px 10px;
+  font: bold 14px 'Courier New', Courier, monospace;
+  text-transform: uppercase;
+  border: 1px solid #CCC;
+  -webkit-transition: all 600ms ease;
+}
+
+/* line 166, style.scss */
+input[type=submit] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  border-radius: 4px;
+  height: 26px;
+  background-color: #0B8F65;
+  cursor: pointer;
+  font: bold 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #333;
+}
+/* line 177, style.scss */
+input[type=submit]:hover {
+  color: black;
+}
+/* line 180, style.scss */
+input[type=submit]:focus, input[type=submit]:active {
+  outline: none;
+}
+
+/* line 185, style.scss */
+.fl-left {
+  float: left;
+}
+
+/* line 189, style.scss */
+.fl-right {
+  float: right;
 }

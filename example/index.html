@@ -4,11 +4,144 @@
     <meta charset="utf-8">
     <title>Goodness</title>
 
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link href="styles/style.css" rel="stylesheet">
   </head>
   <body>
 
+    <header>
+      <h1>GOODNESS</h1>
+    </header>
+
+    <section class="overview">
+      <h4>Overview</h4>
+      <div class="inner">
+        <p>Goodness is a light jQuery form validation plugin. There are no included validation rules*, feedback markup or error styles. Instead, you make the rules and use the names as classes in your own markup. When the form is validated, classes will be added or removed from your markup to match your defined styles and animation.</p>
+        <p class="foot-note">*A 'required' rule is provided by default, but may be overridden.</p>
+      </div>
+    </section>
+
+    <section class="basic-demo">
+      <h4>Basic Demo</h4>
+      <div class="inner">
+        <div class="description">
+          <p><code>goodness = $('#basic-demo').goodness();</code></p>
+          <p>Call the goodness method on a jQuery selector that returns a form element to intialize the plugin on that form. The only built in validation rule is 'required'. Without specifiying any other options, you can utilize that for text input fields.</p>
+        </div>
+        <form id="basic-demo">
+          <div class="form-row">
+            <div class="form-col">
+              <div class="input-group required">
+                <label for="required">Required</label>
+                <div class="text-container">
+                  <input name="required" type="text" placeholder="Required">
+                  <i class="fa fa-check icon-good"></i><i class="fa fa-times icon-error"></i>
+                </div>
+              </div>
+            </div>
+            <div class="form-col">
+              <div class="input-group optional regex-test">
+                <label for="optional">Optional</label>
+                <div class="text-container">
+                  <input name="optional" type="text" placeholder="Optional">
+                  <i class="fa fa-check icon-good"></i><i class="fa fa-times icon-error"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-col fl-right">
+              <div class="input-group">
+                <input class="fl-right" type="submit">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="custom-rules">
+      <h4>Custom Rules</h4>
+      <div class="inner">
+        <div class="description">
+          <p><code>goodness = $('#custom-rules').goodness({
+  rules: {
+    'valid-password': function(val, $elm, $form) {
+      return $.trim(val).length > 5;
+    },
+    'match-password': function(val, $elm, $form) {
+      return val === $('input[name=valid-password').val();
+    },
+    'must-check': function(val, $elm, $form) {
+      return $elm.is(':checked');
+    }
+  }
+});</code></p>
+          <p>Specify your validation rules in the 'rules' option when initializing the plugin. The name of your rule should be the same as the class name you apply to elements in your form that you want to adhear to the rule. The name of the rule should be a key in the rules object, while it's value should be a function that returns a boolean value. This function will be called to validate the input element, and will be passed the element's value, and jQuery references to the element itself as well as the form.</p>
+        </div>
+        <form id="custom-rules">
+          <div class="form-row">
+            <div class="form-col">
+              <div class="input-group required">
+                <label for="required">Required</label>
+                <div class="text-container">
+                  <input name="required" type="text" placeholder="Required">
+                  <i class="fa fa-check icon-good"></i><i class="fa fa-times icon-error"></i>
+                </div>
+              </div>
+            </div>
+            <div class="form-col">
+              <div class="input-group optional">
+                <label for="optional">Optional</label>
+                <div class="text-container">
+                  <input name="optional" type="text" placeholder="Optional">
+                  <i class="fa fa-check icon-good"></i><i class="fa fa-times icon-error"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-col">
+              <div class="input-group valid-password required">
+                <label for="valid-password">Password</label>
+                <div class="text-container">
+                  <input name="valid-password" type="text" placeholder="Password">
+                  <i class="fa fa-check icon-good"></i><i class="fa fa-times icon-error"></i>
+                </div>
+              </div>
+            </div>
+            <div class="form-col">
+              <div class="input-group match-password required">
+                <label for="match-password">Match Password</label>
+                <div class="text-container">
+                  <input name="match-password" type="text" placeholder="Match Password">
+                  <i class="fa fa-check icon-good"></i><i class="fa fa-times icon-error"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-col">
+              <div class="input-group must-check">
+                <div class="check-container">
+                  <label for="must-check"><input name="must-check" type="checkbox"> I agree to everything.</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-col fl-right">
+              <div class="input-group">
+                <input class="fl-right" type="submit">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script src="../goodness.min.js"></script>
+    <script src="../src/goodness.js"></script>
+    <script src="javascripts/example.js"></script>
   </body>
 </html>
