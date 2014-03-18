@@ -1,6 +1,6 @@
 {
   "name": "goodness",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "goodness.min.js",
   "keywords": ["goodness", "form", "validation"],
   "private": true,

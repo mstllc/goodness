@@ -4,10 +4,7 @@ $(function() {
 
   // Initialize basic-demo form, just check for required text fields
   basicDemo = $('#basic-demo').goodness({
-    inputContainerSelector: '.input-group',
-    rules: {
-      'regex-test': /^[^0-9]*$/
-    }
+    inputContainerSelector: '.input-group'
   });
 
   // Initialize custom-rules form a custom rule
