@@ -16,18 +16,15 @@
 
   // Built-In rules
   var defaultRules = {
-    'required': function(val, $elm, $form) {
-      return /^(?!\s*$).+/.test(val);
-    }
-  }
+    'required': /^(?!\s*$).+/
+  };
 
   // Default options
   var defaults = {
     inputContainerSelector: 'input, textarea, select',
     validationElementSelector: validationElementSelector,
     validateOnChange: false,
-    emitEvents: false,
-    defaultErrorMessage: 'You gotta fix this.'
+    emitEvents: false
   };
 
   // Plugin constructor
@@ -126,16 +123,16 @@
           passedRule = self.options.rules[className].test($elm.val());
         }
 
-        // If passedRule is -1, remove both classes, otherwise add/remove based on value.
-        if(passedRule === -1) {
-          $container.removeClass(className + '-good').removeClass(className + '-error');
-        } else if(passedRule) {
+        // If passedRule is anything but 1/true or 0/false, remove both classes, otherwise add/remove based on value.
+        if(passedRule === 1 || passedRule === true) {
           $container.addClass(className + '-good').removeClass(className + '-error');
           good = true;
-        } else {
+        } else if(passedRule === 0 || passedRule === false) {
           $container.addClass(className + '-error').removeClass(className +'-good');
           good = false;
           hadError = true;
+        } else {
+          $container.removeClass(className + '-good').removeClass(className + '-error');
         }
 
         // Flag hadRule as true
@@ -171,26 +168,25 @@
     return true;
   };
 
-  Goodness.prototype.getRules = function() {
-    // Get all the rules
-    return rules;
+  Goodness.prototype.setRule = function(name, rule) {
+    // Set or add a rule
+
   };
 
-  Goodness.prototype.addRule = function(name, rule) {
-    // Add a new rule
-    if(name && (typeof name === 'string') && rule && (typeof rule === 'object')) {
-      if(!rule.message)
-        rule.message = defaults.defaultErrorMessage;
-      if(!rule.regex || !(rule.regex instanceof RegExp)) {
-        $.error('Must supply a rule RegEx.');
-        return false;
-      }
-      if(!rules[name]) {
-        rules[name] = rule;
-      }
-      return this;
-    }
+  Goodness.prototype.getTheGoodness = function() {
+    var self = this;
+    var data = {};
+    this.$formControls.each(function(idx, elm) {
+      var $elm = $(elm);
+      var key = $elm.attr('name') || $elm.attr('id') || 'form-control-' + idx;
+      var value = ($elm.is('[type=checkbox]')) ? $elm.is(':checked') : $elm.val();
+      data[key] = value;
+    });
+
+    return data;
   };
+
+  Goodness.prototype.serialize = Goodness.prototype.getTheGoods;
 
   Goodness.prototype._onFormSubmit = function(e) {
     if(this.isAllGood()) {
@@ -218,7 +214,8 @@
         throw new Error('Goodness should only be called on a form element.');
       }
     } else {
-      throw new Error('Goodness does not support multiple element selectors. Make sure your selector only returns a single element.');
+      throw new Error('Goodness does not support multiple element selectors. ' +
+        'Make sure your selector only returns a single element.');
     }
   };
 
