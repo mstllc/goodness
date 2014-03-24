@@ -126,7 +126,6 @@
         // If passedRule is anything but 1/true or 0/false, remove both classes, otherwise add/remove based on value.
         if(passedRule === 1 || passedRule === true) {
           $container.addClass(className + '-good').removeClass(className + '-error');
-          good = true;
         } else if(passedRule === 0 || passedRule === false) {
           $container.addClass(className + '-error').removeClass(className +'-good');
           good = false;
@@ -152,6 +151,7 @@
       $container.removeClass('error').removeClass('good');
     }
 
+    console.log(good);
     return good;
 
   };
