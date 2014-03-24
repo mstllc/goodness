@@ -94,7 +94,7 @@
 
   Goodness.prototype.goodOne = function($elm) {
     var self = this;
-    var good = false;
+    var good = true;
     var hadRule = false;
     var hadError = false;
 
