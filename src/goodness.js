@@ -186,7 +186,7 @@
     return data;
   };
 
-  Goodness.prototype.serialize = Goodness.prototype.getTheGoods;
+  Goodness.prototype.serialize = Goodness.prototype.getTheGoodness;
 
   Goodness.prototype._onFormSubmit = function(e) {
     if(this.isAllGood()) {
