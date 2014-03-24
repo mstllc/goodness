@@ -187,9 +187,22 @@
 
   Goodness.prototype.serialize = Goodness.prototype.getTheGoodness;
 
+  Goodness.prototype.onSubmit = function(callback) {
+    if(typeof callback === 'function') {
+      this.$element.off('submit');
+      this.$element.on('submit', $.proxy(function(e) {
+        callback(this.isAllGood(), this.serialize(), e);
+      }, this));
+    }
+    return this;
+  };
+
+  Goodness.prototype.submit = function() {
+    this.$element.submit();
+  };
+
   Goodness.prototype._onFormSubmit = function(e) {
     if(this.isAllGood()) {
-      // THIS WOULD LET THIS FORM GO THROUGH
       return true;
     }
     return false;
