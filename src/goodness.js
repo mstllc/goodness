@@ -191,7 +191,7 @@
     if(typeof callback === 'function') {
       this.$element.off('submit');
       this.$element.on('submit', $.proxy(function(e) {
-        callback(this.isAllGood(), this.serialize(), e);
+        return callback(this.isAllGood(), this.serialize(), e);
       }, this));
     }
     return this;
