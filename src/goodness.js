@@ -151,7 +151,6 @@
       $container.removeClass('error').removeClass('good');
     }
 
-    console.log(good);
     return good;
 
   };
